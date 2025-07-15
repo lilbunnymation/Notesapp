@@ -10,7 +10,7 @@ def download_youtube_audio(url):
     yt = YouTube(url)
     stream = yt.streams.filter(only_audio=True).first()
     filename = f"yt_audio_{uuid.uuid4().hex}.mp3"  # unique filename to avoid clashes
-    stream.download(filename=filename)
+    stream.download(output_path=".", filename=filename)
     return filename
 
 def generate_notes(text):
@@ -55,7 +55,6 @@ if yt_url:
         st.text_area("Q&A Style Flashcards:", value=flashcards, height=300)
         st.markdown("---")
 
-        os.remove(filename)  # delete the audio file to save space
     except Exception as e:
         st.error(f"An error occurred: {e}")
 
