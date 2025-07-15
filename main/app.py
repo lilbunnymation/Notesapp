@@ -1,6 +1,3 @@
-!pip install openai
-!pip install git+https://github.com/openai/whisper.git
-!pip install pytube
 import whisper
 from pytube import YouTube
 from google.colab import files
