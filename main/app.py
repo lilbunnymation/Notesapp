@@ -1,6 +1,5 @@
 import whisper
 from pytube import YouTube
-from google.colab import files
 import os
 model= whisper.load_model("base")
 yt_url = input("Paste a youtube link here!:")
