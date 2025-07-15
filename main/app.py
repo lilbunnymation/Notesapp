@@ -9,7 +9,7 @@ openai.api_key = st.secrets["openai_api_key"]
 def download_youtube_audio(url):
     yt = YouTube(url)
     stream = yt.streams.filter(only_audio=True).first()
-    filename = f"yt_audio_{uuid.uuid4().hex}.mp3"  # unique filename to avoid clashes
+    filename = f"yt_audio_{uuid.uuid4().hex}.mp3"  
     stream.download(output_path=".", filename=filename)
     return filename
 
@@ -37,6 +37,7 @@ if yt_url:
     try:
         with st.spinner("🎧 Downloading and transcribing..."):
             filename = download_youtube_audio(yt_url)
+            st.audio(filename)
             with open(filename, "rb") as audio_file:
                 transcript = openai.Audio.transcribe("whisper-1", audio_file)["text"]
 
@@ -54,8 +55,7 @@ if yt_url:
         st.subheader("🧠 Flashcards")
         st.text_area("Q&A Style Flashcards:", value=flashcards, height=300)
         st.markdown("---")
-
-    except Exception as e:
-        st.error(f"An error occurred: {e}")
-
-st.info("Done studying? Refresh to try a new video or upload another one!")
+        
+except Exception as e:
+    st.error(f"❌ An error occurred:\n\n{e}")
+    st.stop()  
